@@ -1,0 +1,218 @@
+/* CSS variables for light/dark themes */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --accent-color: #007acc;
+    --task-bg: #f9f9f9;
+    /* category-specific colors */
+    --color-general: #6c757d;
+    --color-work: #28a745;
+    --color-personal: #17a2b8;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1e1e1e;
+    --text-color: #cccccc;
+    --accent-color: #009688;
+    --task-bg: #2e2e2e;
+    /* category-specific colors for dark mode (slightly lighter) */
+    --color-general: #adb5bd;
+    --color-work: #71dca4;
+    --color-personal: #6fd3dc;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--accent-color);
+    color: #fff;
+}
+
+#container {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+#sidebar {
+    width: 200px;
+    background: var(--task-bg);
+    padding: 1rem;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s;
+}
+
+#sidebar.collapsed {
+    width: 60px;
+}
+
+#sidebar button {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sidebar.collapsed button {
+    padding: 0.5rem;
+}
+
+#sidebar button span {
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+#sidebar.collapsed button span {
+    display: none;
+}
+
+#main-content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+main {
+    /* no longer flex container */
+}
+
+section {
+    background: var(--task-bg);
+    padding: 1rem;
+    border-radius: 5px;
+    display: none; /* hidden by default */
+}
+
+section.visible {
+    display: block;
+}
+
+#todo-list, #habit-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-item .delete-btn {
+    background: transparent;
+    border: none;
+    color: #c00;
+    font-weight: bold;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+#todo-controls select {
+    margin-left: 0.5rem;
+}
+
+#filter-category {
+    margin-left: 1rem;
+    font-weight: bold;
+}
+
+#todo-controls input, #todo-controls select, #todo-controls button {
+    padding: 0.5rem;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+#todo-controls button {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+}
+#todo-controls button:hover {
+    opacity: 0.9;
+}
+
+/* Habit items keep original style, to-do updated above */
+.habit-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-color);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+}
+
+.category-chip {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    color: #fff;
+    margin-left: 0.5rem;
+}
+.category-chip.general { background: var(--color-general); }
+.category-chip.work { background: var(--color-work); }
+.category-chip.personal { background: var(--color-personal); }
+
+/* to-do items bordering by category for visual flair */
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-color);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+    border-left: 4px solid transparent;
+}
+.todo-item.general { border-left-color: var(--color-general); }
+.todo-item.work { border-left-color: var(--color-work); }
+.todo-item.personal { border-left-color: var(--color-personal); }
+
+.todo-item:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* filter select color based on selection - visual classes still applied but color overridden to black */
+#filter-category, #filter-category option {
+    color: #000 !important;
+}
+#filter-category.filter-general { /* kept for semantics */ }
+#filter-category.filter-work { }
+#filter-category.filter-personal { }
+#filter-category.filter-all { }
+
+#editor {
+    min-height: 200px;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 3px;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.progress-bar {
+    width: 100%;
+    background: #ddd;
+    border-radius: 3px;
+    overflow: hidden;
+    height: 8px;
+    margin-top: 0.25rem;
+}
+
+.progress-bar > div {
+    height: 100%;
+    background: var(--accent-color);
+    width: 0;
+}
+
+button {
+    cursor: pointer;
+}

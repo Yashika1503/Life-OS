@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life OS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Life&nbsp;OS</h1>
+        <button id="dark-mode-toggle">Switch Mode</button>
+    </header>
+
+    <div id="container">
+        <nav id="sidebar">
+            <button id="collapse-toggle">≡</button>
+            <button data-target="todo-section"><span>To-do List</span></button>
+            <button data-target="editor-section"><span>Notes</span></button>
+            <button data-target="habit-section"><span>Habits</span></button>
+        </nav>
+
+        <main id="main-content">
+            <section id="todo-section" class="hidden">
+                <h2>To-do List</h2>
+                <div id="todo-controls">
+                    <input type="text" id="new-task" placeholder="New task">
+                    <select id="new-category">
+                        <option value="general">General</option>
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                    <select id="filter-category">
+                        <option value="all">All</option>
+                        <option value="general">General</option>
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                    <button id="add-task">Add</button>
+                </div>
+                <ul id="todo-list"></ul>
+            </section>
+
+            <section id="editor-section" class="hidden">
+                <h2>Notes</h2>
+                <div id="editor" contenteditable="true" placeholder="Type your notes here..."></div>
+            </section>
+
+            <section id="habit-section" class="hidden">
+                <h2>Habits</h2>
+                <div id="habit-controls">
+                    <input type="text" id="new-habit" placeholder="New habit">
+                    <button id="add-habit">Add</button>
+                </div>
+                <ul id="habit-list"></ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
