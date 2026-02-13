@@ -87,15 +87,27 @@ header {
     overflow-y: auto;
 }
 
-main {
-    /* no longer flex container */
-}
-
 section {
     background: var(--task-bg);
     padding: 1rem;
     border-radius: 5px;
     display: none; /* hidden by default */
+}
+
+/* card container used inside each section */
+.card {
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 0.75rem;
+        margin-top: 0.25rem;
+    }
 }
 
 section.visible {
@@ -123,31 +135,271 @@ section.visible {
 #filter-category {
     margin-left: 1rem;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
-
-#todo-controls input, #todo-controls select, #todo-controls button {
+#todo-controls input {
+    flex: 1 1 auto;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+#todo-controls select {
     padding: 0.5rem;
     border-radius: 3px;
     border: 1px solid #ccc;
 }
 #todo-controls button {
+    padding: 0.5rem 1rem;
     background: var(--accent-color);
     color: #fff;
     border: none;
+    border-radius: 20px;
 }
 #todo-controls button:hover {
     opacity: 0.9;
 }
 
-/* Habit items keep original style, to-do updated above */
-.habit-item {
+/* filter tabs like sample image */
+.filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+.filter-tabs button {
+    flex: 1;
+    padding: 0.5rem 0;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: bold;
+    cursor: pointer;
+}
+.filter-tabs button.active {
+    border-bottom-color: var(--accent-color);
+}
+
+/* custom circular checkboxes */
+.todo-item input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-color);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.todo-item input[type=checkbox]:checked {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+.todo-item input[type=checkbox]:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: 0;
+    left: 3px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.todo-item.done span {
+    color: #888;
+}
+.todo-item.done {
+    opacity: 0.8;
+}
+
+/* list item separators and layout similar to example */
+.todo-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: var(--bg-color);
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 3px;
+    margin-bottom: 0;
+    padding: 0.75rem 0.5rem;
+    border-radius: 0;
+    border-left: 4px solid transparent;
+    border-bottom: 1px solid #eee;
+}
+.todo-item:last-child { border-bottom: none; }
+
+/* delete button alignment moved right */
+.todo-item .delete-btn {
+    background: transparent;
+    border: none;
+    color: #c00;
+    font-weight: bold;
+    margin-left: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* clear completed link at bottom */
+.clear-completed {
+    display: block;
+    margin-top: 0.5rem;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    cursor: pointer;
+}
+
+/* Habit styling - new card-based layout */
+.habit-filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.habit-filter-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 2px solid #007acc;
+    color: #007acc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.habit-filter-btn.active {
+    background: #007acc;
+    color: #fff;
+}
+
+.habit-filter-btn:hover {
+    opacity: 0.8;
+}
+
+#habit-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+#habit-controls input {
+    flex: 1 1 calc(50% - 0.25rem);
+    min-width: 150px;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+#habit-controls input#new-habit-emoji {
+    flex: 0 1 80px;
+    text-align: center;
+}
+
+#habit-controls button {
+    flex: 0 1 auto;
+    padding: 0.75rem 1.5rem;
+    background: #007acc;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#habit-controls button:hover {
+    opacity: 0.9;
+}
+
+#habit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.habit-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background: #FFE0B2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.habit-list-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.habit-avatar {
+    font-size: 2.5rem;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.habit-content {
+    flex: 1;
+}
+
+.habit-list-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.habit-list-desc {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.habit-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.habit-edit-btn,
+.habit-delete-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.habit-edit-btn {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.habit-edit-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+.habit-delete-btn {
+    background: #f44336;
+    color: #fff;
+}
+
+.habit-delete-btn:hover {
+    background: #da190b;
+    transform: scale(1.05);
+}
+
+.habit-item {
+    display: none;
 }
 
 .category-chip {
@@ -161,21 +413,10 @@ section.visible {
 .category-chip.work { background: var(--color-work); }
 .category-chip.personal { background: var(--color-personal); }
 
-/* to-do items bordering by category for visual flair */
-.todo-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg-color);
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 3px;
-    border-left: 4px solid transparent;
-}
+/* to-do items styled with category borders and hover effects */
 .todo-item.general { border-left-color: var(--color-general); }
 .todo-item.work { border-left-color: var(--color-work); }
 .todo-item.personal { border-left-color: var(--color-personal); }
-
 .todo-item:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
@@ -184,18 +425,125 @@ section.visible {
 #filter-category, #filter-category option {
     color: #000 !important;
 }
-#filter-category.filter-general { /* kept for semantics */ }
-#filter-category.filter-work { }
-#filter-category.filter-personal { }
-#filter-category.filter-all { }
 
-#editor {
-    min-height: 200px;
+#notes-search-wrapper {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.notes-search {
+    width: 100%;
+    padding: 0.75rem 1rem;
     border: 1px solid #ccc;
-    padding: 0.5rem;
-    border-radius: 3px;
+    border-radius: 20px;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.notes-search::placeholder {
+    color: #999;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.note-card {
     background: var(--bg-color);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.note-card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
     color: var(--text-color);
+}
+
+.note-card-preview {
+    font-size: 0.9rem;
+    color: #666;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 0.75rem;
+}
+
+.note-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.note-card-tag {
+    background: transparent;
+    border: 1px solid #999;
+    border-radius: 12px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+}
+
+.note-card-delete {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #c00;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+}
+
+.note-card:hover .note-card-delete {
+    display: block;
+}
+
+.new-note-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#editor-section .new-note-btn {
+    display: flex;
+}
+
+.new-note-btn:hover {
+    transform: scale(1.1);
 }
 
 .progress-bar {
@@ -215,4 +563,532 @@ section.visible {
 
 button {
     cursor: pointer;
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+/* Mobile: up to 480px */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 0.5rem;
+    }
+    header h1 {
+        font-size: 1rem;
+    }
+    #dark-mode-toggle {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    #container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #sidebar {
+        width: 100%;
+        flex-direction: row;
+        padding: 0.25rem;
+        overflow-x: auto;
+    }
+    #sidebar button {
+        flex: 1;
+        margin: 0.125rem;
+        padding: 0.35rem 0.25rem;
+        font-size: 0.75rem;
+    }
+    #sidebar button span {
+        display: none;
+    }
+
+    #main-content {
+        padding: 0.25rem;
+    }
+
+    section {
+        padding: 0.5rem;
+    }
+    section h2 {
+        font-size: 1.25rem;
+        margin: 0.5rem 0;
+    }
+
+    .card {
+        padding: 0.5rem;
+        margin-top: 0.25rem;
+        border-radius: 6px;
+    }
+
+    .notes-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    .notes-search {
+        padding: 0.5rem 0.75rem;
+        font-size: 14px;
+    }
+    .note-card {
+        padding: 0.75rem;
+        min-height: 150px;
+    }
+    .note-card-title {
+        font-size: 1rem;
+        margin-bottom: 0.35rem;
+    }
+    .note-card-preview {
+        font-size: 0.85rem;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        margin-bottom: 0.5rem;
+    }
+    .new-note-btn {
+        bottom: 1rem;
+        right: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    #todo-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    #todo-controls input {
+        width: 100%;
+        padding: 0.5rem 0.5rem;
+        font-size: 14px;
+    }
+    #todo-controls select {
+        width: 100%;
+        padding: 0.35rem;
+        font-size: 13px;
+    }
+    #todo-controls button {
+        width: 100%;
+        padding: 0.5rem 0.5rem;
+        font-size: 14px;
+    }
+
+    .filter-tabs {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    .filter-tabs button {
+        flex: 1 1 calc(50% - 0.125rem);
+        padding: 0.4rem 0.25rem;
+        font-size: 12px;
+    }
+
+    .todo-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem 0.35rem;
+        gap: 0.5rem;
+    }
+    .todo-item input[type=checkbox] {
+        width: 18px;
+        height: 18px;
+    }
+    .todo-item .category-chip {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.3rem;
+        margin-left: 0.25rem;
+    }
+    .todo-item .delete-btn {
+        align-self: flex-end;
+        margin-left: auto;
+        margin-top: 0;
+        font-size: 1.2rem;
+    }
+
+    .clear-completed {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    #habit-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    #habit-controls input,
+    #habit-controls button {
+        width: 100%;
+        padding: 0.5rem 0.5rem;
+        font-size: 14px;
+    }
+
+    .habit-filter-tabs {
+        flex-wrap: wrap;
+        gap: 0.35rem;
+    }
+
+    .habit-filter-btn {
+        flex: 1 1 calc(50% - 0.175rem);
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .habit-list-item {
+        flex-wrap: wrap;
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .habit-avatar {
+        font-size: 2rem;
+        min-width: 50px;
+    }
+
+    .habit-list-name {
+        font-size: 0.95rem;
+    }
+
+    .habit-list-desc {
+        font-size: 0.8rem;
+    }
+
+    .habit-edit-btn,
+    .habit-delete-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        height: 55px;
+        font-size: 0.7rem;
+    }
+    .habit-checkbox {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    .habit-name {
+        font-size: 0.95rem;
+    }
+}
+
+/* Tablet: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+
+    header {
+        padding: 0.75rem;
+    }
+    header h1 {
+        font-size: 1.25rem;
+    }
+    #dark-mode-toggle {
+        font-size: 0.875rem;
+    }
+
+    #container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #sidebar {
+        width: 100%;
+        flex-direction: row;
+        padding: 0.5rem;
+        overflow-x: auto;
+    }
+    #sidebar button {
+        flex: 1;
+        margin: 0 0.25rem;
+        padding: 0.5rem 0.35rem;
+        font-size: 0.875rem;
+    }
+    #sidebar button span {
+        display: none;
+    }
+
+    #main-content {
+        padding: 0.75rem;
+    }
+
+    section {
+        padding: 0.75rem;
+    }
+    section h2 {
+        font-size: 1.5rem;
+    }
+
+    .card {
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    .notes-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    .notes-search {
+        padding: 0.6rem 0.875rem;
+        font-size: 15px;
+    }
+    .note-card {
+        padding: 0.875rem;
+        min-height: 160px;
+    }
+    .note-card-title {
+        font-size: 1.05rem;
+    }
+    .note-card-preview {
+        font-size: 0.9rem;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+    .new-note-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 55px;
+        height: 55px;
+        font-size: 1.75rem;
+    }
+
+    #todo-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    #todo-controls input {
+        flex: 1 1 100%;
+        padding: 0.5rem 0.75rem;
+    }
+    #todo-controls select {
+        flex: 0 1 auto;
+        padding: 0.5rem;
+    }
+    #todo-controls button {
+        flex: 0 1 auto;
+    }
+
+    .filter-tabs {
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 0.35rem;
+    }
+    .filter-tabs button {
+        flex: 1 1 calc(50% - 0.175rem);
+        padding: 0.45rem 0.25rem;
+        font-size: 0.875rem;
+    }
+
+    .todo-item {
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 0.65rem 0.5rem;
+        gap: 0.35rem;
+    }
+    .todo-item input[type=checkbox] {
+        width: 18px;
+        height: 18px;
+    }
+    .todo-item .category-chip {
+        font-size: 0.7rem;
+    }
+    .todo-item .delete-btn {
+        margin-left: auto;
+        margin-top: 0;
+    }
+
+    #habit-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    #habit-controls input {
+        flex: 1 1 auto;
+    }
+    #habit-controls button {
+        flex: 0 1 auto;
+    }
+
+    .habit-header-dates {
+        gap: 1.2rem;
+    }
+    .habit-card {
+        gap: 0.9rem;
+        padding: 0.85rem;
+        margin-bottom: 0.85rem;
+    }
+    .habit-progress-circle {
+        width: 58px;
+        height: 58px;
+    }
+    .habit-checkbox {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* Desktop: 769px and up */
+@media (min-width: 769px) {
+    body {
+        font-size: 16px;
+    }
+
+    header {
+        padding: 1rem;
+    }
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    #container {
+        flex-direction: row;
+        height: calc(100vh - 60px);
+    }
+
+    #sidebar {
+        width: 200px;
+        flex-direction: column;
+        padding: 1rem;
+    }
+    #sidebar button {
+        margin-bottom: 0.5rem;
+    }
+    #sidebar button span {
+        display: inline;
+    }
+
+    #main-content {
+        padding: 1rem;
+    }
+
+    section {
+        padding: 1rem;
+    }
+    section h2 {
+        font-size: 1.875rem;
+    }
+
+    .card {
+        padding: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .notes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+    }
+    .notes-search {
+        padding: 0.75rem 1rem;
+        font-size: 16px;
+    }
+    .note-card {
+        padding: 1rem;
+        min-height: 180px;
+    }
+    .note-card-title {
+        font-size: 1.1rem;
+    }
+    .note-card-preview {
+        font-size: 0.9rem;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+    }
+    .new-note-btn {
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    #todo-controls {
+        gap: 0.75rem;
+    }
+    #todo-controls input {
+        flex: 1 1 auto;
+        padding: 0.5rem 0.75rem;
+    }
+    #todo-controls select {
+        flex: 0 1 auto;
+    }
+    #todo-controls button {
+        flex: 0 1 auto;
+        padding: 0.5rem 1rem;
+    }
+
+    .filter-tabs {
+        gap: 0.75rem;
+        margin: 0.75rem 0;
+    }
+    .filter-tabs button {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .todo-item {
+        flex-direction: row;
+        padding: 0.75rem 0.5rem;
+        gap: 0.75rem;
+    }
+    .todo-item input[type=checkbox] {
+        width: 20px;
+        height: 20px;
+    }
+    .todo-item .category-chip {
+        font-size: 0.75rem;
+    }
+    .todo-item .delete-btn {
+        margin-left: 0.5rem;
+    }
+
+    .clear-completed {
+        font-size: 0.85rem;
+        margin-top: 0.75rem;
+    }
+
+    #habit-controls {
+        flex-wrap: nowrap;
+        gap: 0.75rem;
+    }
+    #habit-controls input {
+        flex: 1 1 auto;
+    }
+
+    .habit-header {
+        padding-right: 1.5rem;
+    }
+    .habit-header-dates {
+        gap: 1.5rem;
+    }
+    .habit-card {
+        gap: 1rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .habit-progress-circle {
+        width: 65px;
+        height: 65px;
+        font-size: 0.8rem;
+    }
+    .habit-checkbox {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* Extra Large Screens: 1200px and up */
+@media (min-width: 1200px) {
+    #sidebar {
+        width: 250px;
+    }
+
+    #main-content {
+        padding: 1.5rem;
+    }
+
+    section {
+        padding: 1.5rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 }

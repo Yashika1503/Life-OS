@@ -24,36 +24,59 @@
         <main id="main-content">
             <section id="todo-section" class="hidden">
                 <h2>To-do List</h2>
-                <div id="todo-controls">
-                    <input type="text" id="new-task" placeholder="New task">
-                    <select id="new-category">
-                        <option value="general">General</option>
-                        <option value="work">Work</option>
-                        <option value="personal">Personal</option>
-                    </select>
-                    <select id="filter-category">
-                        <option value="all">All</option>
-                        <option value="general">General</option>
-                        <option value="work">Work</option>
-                        <option value="personal">Personal</option>
-                    </select>
-                    <button id="add-task">Add</button>
+                <div class="card">
+                    <div id="todo-controls">
+                        <input type="text" id="new-task" placeholder="New task">
+                        <select id="new-category">
+                            <option value="general">General</option>
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                        </select>
+                        <!-- filter tabs to mimic sample layout -->
+                        <div class="filter-tabs">
+                            <button data-filter="all" class="active">All</button>
+                            <button data-filter="general">General</button>
+                            <button data-filter="work">Work</button>
+                            <button data-filter="personal">Personal</button>
+                        </div>
+                        <button id="add-task">Add</button>
+                    </div>
+                    <ul id="todo-list"></ul>
                 </div>
-                <ul id="todo-list"></ul>
             </section>
 
             <section id="editor-section" class="hidden">
                 <h2>Notes</h2>
-                <div id="editor" contenteditable="true" placeholder="Type your notes here..."></div>
+                <div class="card">
+                    <div id="notes-search-wrapper">
+                        <input type="text" id="notes-search" placeholder="Search your notes" class="notes-search">
+                    </div>
+                    <div id="notes-container" class="notes-grid"></div>
+                    <button id="new-note-btn" class="new-note-btn">+</button>
+                </div>
             </section>
 
             <section id="habit-section" class="hidden">
-                <h2>Habits</h2>
-                <div id="habit-controls">
-                    <input type="text" id="new-habit" placeholder="New habit">
-                    <button id="add-habit">Add</button>
+                <h2>All habits</h2>
+                <div class="card">
+                    <!-- Filter tabs -->
+                    <div class="habit-filter-tabs">
+                        <button data-habit-filter="all" class="habit-filter-btn active">All days</button>
+                        <button data-habit-filter="mon" class="habit-filter-btn">Mon</button>
+                        <button data-habit-filter="tue" class="habit-filter-btn">Tue</button>
+                        <button data-habit-filter="wed" class="habit-filter-btn">Wed</button>
+                        <button data-habit-filter="thu" class="habit-filter-btn">Thu</button>
+                    </div>
+                    
+                    <div id="habit-controls">
+                        <input type="text" id="new-habit-name" placeholder="Habit name">
+                        <input type="text" id="new-habit-desc" placeholder="Description (optional)">
+                        <input type="text" id="new-habit-emoji" placeholder="Emoji (optional)" maxlength="2" value="😊">
+                        <button id="add-habit">Add</button>
+                    </div>
+                    
+                    <ul id="habit-list"></ul>
                 </div>
-                <ul id="habit-list"></ul>
             </section>
         </main>
     </div>
